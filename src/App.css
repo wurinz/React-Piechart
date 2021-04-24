@@ -1,0 +1,89 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+
+.container{
+  width: 60%;
+  margin: 40px auto;
+  border-radius: 25px;
+  padding: 8px 0;
+  color: white;
+  background-color: #2A9D8F;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+h1{
+  padding-bottom: 25px;
+  letter-spacing: 4px;
+  font-weight: bold;
+  font-size: 35px;
+  border-bottom: 3px solid #f1b685;
+}
+.field label{
+  margin-right: 15px;
+}
+.field{
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.input{
+  width: 170px;
+  height: 15px;
+  padding: 2px 8px;
+  border: none;
+  border-radius: 4px;
+
+}
+input:focus{
+  outline: none;
+}
+
+.add_item_form{
+  width: 65%;
+  margin: auto;
+  display: flex;
+  font-size: 21px;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+.pie{
+  margin: auto;
+  transition: .3 all ease-in-out;
+}
+.pie_chart{
+  width: 60%;
+}
+.pie_chart_container{
+  width: 60%;
+  margin: auto;
+}
