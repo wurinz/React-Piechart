@@ -13,36 +13,32 @@ function App() {
   const renderPieChart = () => {
     let allQuantity = 0;
     let sumPreviousItems = 0;
+
     for(let i = 0; i < items.length - 1; i++){
       sumPreviousItems += parseInt(items[i].quantity);
     }
     for(let item of items){
       allQuantity = allQuantity + parseInt(item.quantity);
     }
-    let calcPreviousSectionsPercent = (sumPreviousItems, allQuantity) => {
-      return (sumPreviousItems / allQuantity) * 100 
-    }
-    console.log(calcPreviousSectionsPercent(sumPreviousItems, allQuantity))
 
     return (
       <div className="pie_chart">
         <svg width="100%" height="100%" viewBox="0 0 42 42" class="pie">
           <circle className="pie-hole" cx='21' cy='21' r='15.91549430918952' fill='#fff'></circle>
           <circle className="pie-ring" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke='#d2d3d4' strokeWidth='5'></circle>
-{/* 
-          <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke='#ce4b99' strokeWidth='3' strokeDasharray='50 50' strokeDashoffset='25'></circle>
-          <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke='#b1c94e' strokeWidth='3' strokeDasharray='30 70' strokeDashoffset='75'></circle>
-          <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke='#377bbc' strokeWidth='3' strokeDasharray='20 80' strokeDashoffset='45'></circle> */}
-
           {items.map((item) => {
-            let strokeDasharray = `${(item.quantity / allQuantity) * 100} ${100 - ((item.quantity / allQuantity) * 100)}`;
-            // if(item.id !== 0){
-            //   return <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke={item.color} strokeWidth='5' strokeDasharray={strokeDasharray} strokeDashoffset={calcPreviousSectionsPercent()}>yo</circle>
-            // } else {
-            //   return <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke={item.color} strokeWidth='5' strokeDasharray={strokeDasharray} strokeDashoffset='25'></circle>
-            // }
-            return <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke={item.color} strokeWidth='5' strokeDasharray={strokeDasharray} strokeDashoffset={`${125 - calcPreviousSectionsPercent()}`}>yo</circle>
             
+            const calcPreviousSectionsPercent = (sumPreviousItems, allQuantity) => {
+              let strokeDashoffset = `${100 - (sumPreviousItems / allQuantity) * 100}`;
+              return strokeDashoffset;
+            }
+
+            let strokeDasharray = `${(item.quantity / allQuantity) * 100} ${100 - ((item.quantity / allQuantity) * 100)}`;
+            if(item.id !== 0){
+              return <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke={item.color} strokeWidth='5' strokeDasharray={strokeDasharray} strokeDashoffset={calcPreviousSectionsPercent(sumPreviousItems, allQuantity)}></circle>
+            } else {
+              return <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke={item.color} strokeWidth='5' strokeDasharray={strokeDasharray} strokeDashoffset='0'></circle>
+            } 
           })}
         </svg>
       </div>
@@ -79,7 +75,7 @@ function App() {
         color: '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6), 
       }])
   } 
-  
+
   const renderFieldComponents = () => {   
     console.log('kkd')
         return (
@@ -92,7 +88,7 @@ function App() {
                </div>
          </div>
         )
-}
+  }
 
   const signIn = () => {
       return (
@@ -144,9 +140,6 @@ function App() {
     )
   }
 
-
-  
-
   return (
       <div className="App">
         <div className="container">
@@ -154,9 +147,6 @@ function App() {
           <section className="pie_chart_container">
             {renderPieChart()}
           </section>
-          
-
-              
           <section className="sign_in">
             { showList === false ? signIn() : null}
           </section>

@@ -9,8 +9,6 @@ const Field = (
     const [quantity, setQuantity] = useState(0);
     const [deleteId, setDeleteId] = useState(null)
 
-   
-
     const handleChange = (event, type) => {
         if(type === 'name'){
             setName(event.target.value);
