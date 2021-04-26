@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import { useState } from 'react'
 
 const Field = (
-    {updateItems, id}
+    {updateItems, id, deleteItem}
 ) => {
 
     const [name, setName] = useState('');
     const [quantity, setQuantity] = useState(0);
-    const [deleteId, setDeleteId] = useState(null)
 
     const handleChange = (event, type) => {
         if(type === 'name'){
@@ -16,15 +15,11 @@ const Field = (
             Number.isNaN(parseInt(event.target.value)) === false || event.target.value === '' ? setQuantity(event.target.value) : alert("Enter a number");
             setQuantity(event.target.value);
         }
-    }
-    const handleRemove = (id) => {
-        setDeleteId(id);
-    }
+    }   
 
     useEffect(() => {     //compoentDidUpdate
-        updateItems({name, quantity, id, deleteId});
-        setDeleteId(null);
-    }, [name, quantity, deleteId])
+        updateItems({name, quantity, id});
+    }, [name, quantity])
 
     return(
         <div>
@@ -53,7 +48,7 @@ const Field = (
                 </div>
                 <button onClick={(event) => {
                         event.preventDefault();
-                        handleRemove(id);
+                        deleteItem(id);
                 }}>Delete item</button>
             </form>
         </div>

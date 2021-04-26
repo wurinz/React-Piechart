@@ -1,6 +1,6 @@
 import './App.css';
 import Field from './components/Field';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 function App() {
@@ -10,35 +10,27 @@ function App() {
   const [showList, setShowList] = useState(false);
   const authenticationInfo = {user: 'user', password: 'password'};
 
+  const allQuantity = items.reduce((a, b) => a + +b.quantity, 0); //0 - дефолтное значение
+  let sumPreviousItems = 0;
+  let previousPercent = 0;
+
+
+  
+
   const renderPieChart = () => {
-    let allQuantity = 0;
-    let sumPreviousItems = 0;
-
-    for(let i = 0; i < items.length - 1; i++){
-      sumPreviousItems += parseInt(items[i].quantity);
-    }
-    for(let item of items){
-      allQuantity = allQuantity + parseInt(item.quantity);
-    }
-
     return (
       <div className="pie_chart">
         <svg width="100%" height="100%" viewBox="0 0 42 42" class="pie">
           <circle className="pie-hole" cx='21' cy='21' r='15.91549430918952' fill='#fff'></circle>
           <circle className="pie-ring" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke='#d2d3d4' strokeWidth='5'></circle>
-          {items.map((item) => {
-            
-            const calcPreviousSectionsPercent = (sumPreviousItems, allQuantity) => {
-              let strokeDashoffset = `${100 - (sumPreviousItems / allQuantity) * 100}`;
-              return strokeDashoffset;
-            }
-
-            let strokeDasharray = `${(item.quantity / allQuantity) * 100} ${100 - ((item.quantity / allQuantity) * 100)}`;
-            if(item.id !== 0){
-              return <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke={item.color} strokeWidth='5' strokeDasharray={strokeDasharray} strokeDashoffset={calcPreviousSectionsPercent(sumPreviousItems, allQuantity)}></circle>
-            } else {
-              return <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke={item.color} strokeWidth='5' strokeDasharray={strokeDasharray} strokeDashoffset='0'></circle>
-            } 
+          {items.map((item, index) => {
+            sumPreviousItems += parseInt(item.quantity);  
+            const dasharray = `${(+item.quantity / allQuantity) * 100} ${100 - (+item.quantity / allQuantity) * 100}`;
+            const dashoffset = `${100 - previousPercent + 25}` 
+            previousPercent += (+item.quantity / allQuantity) * 100
+            console.log(previousPercent + ' percent');
+            console.log(dashoffset + ' dashofset');
+            return <circle className="pie-segment" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke={item.color} strokeWidth='5' strokeDasharray={dasharray} strokeDashoffset={index === 0 ? '25' : dashoffset}></circle> 
           })}
         </svg>
       </div>
@@ -46,7 +38,7 @@ function App() {
   }
 
   //функция, которая запускается в дочернюю компоненту и обновляет стейт родительской компоненты
-  const updateItems = ({id, name, quantity, deleteId}) => {     //переменная, которая прилетает, обворачивается в объект
+  const updateItems = ({id, name, quantity}) => {     //переменная, которая прилетает, обворачивается в объект
       let newItems = items.map((item) => {
         if(item.id === id){
           item.name = name;
@@ -54,16 +46,21 @@ function App() {
         } 
         return item;
       });
-      if(id === deleteId){
-        newItems = newItems.filter((item) => item.id !== deleteId);
-      }
+      setItems(newItems);
+  }
+
+  const deleteItem = (id) => {
+      let newItems = items.filter((item) => {
+       debugger; 
+       return item.id !== id
+    })
       setItems(newItems);
   }
 
   const renderFields = () => {
     console.log(items);
     return items.map((item) => {
-      return <Field updateItems={updateItems} id={item.id}/>
+      return <Field updateItems={updateItems} id={item.id} deleteItem={deleteItem}/>
     })
   };
   
@@ -73,6 +70,8 @@ function App() {
         name: '', 
         quantity: 0, 
         color: '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6), 
+        dasharray: ``,
+        dashoffset: ``,
       }])
   } 
 
