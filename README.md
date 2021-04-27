@@ -1,6 +1,6 @@
 # Authentification info
 
-Username : 'user'
+Username : 'user', \
 Password : 'password'
 
 # Getting Started with Create React App
