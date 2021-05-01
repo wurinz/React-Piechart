@@ -77,9 +77,9 @@ function App() {
               })
            }</div>
                <div className="add_field_container">
-                 <button onClick={()=>{
+                 <button className="add_button button"onClick={()=>{
                    addField();
-                 }}>ADD ITEM</button>
+                 }}>Add item</button>
                </div>
          </div>
         )
@@ -88,10 +88,10 @@ function App() {
   const signIn = () => {
       return (
         <div>
-          <div className="authorization">
+          <div className="form signin_form">
             <h2>To use PieChart enter a name and password</h2>
             <form>
-              <div className="authorization_input">
+              <div className="input">
               <label>Name</label>
               <input 
                 type="text"
@@ -105,7 +105,7 @@ function App() {
               >
               </input>
               </div>
-              <div className="authorization_input">
+              <div className="input">
               <label>Password</label>
               <input
                 type="text"
@@ -119,7 +119,7 @@ function App() {
               />
             </div>
             </form>
-            <button onClick={() => {
+            <button className="login_button button" onClick={() => {
               if(user === authenticationInfo.user && password === authenticationInfo.password){
                 setShowList(true)
               };
@@ -132,9 +132,9 @@ function App() {
   const logOut = () => {
     return (
       <div>
-        <button onClick={() => {
+        <button className="logout_button button" onClick={() => {
           setShowList(false);
-        }}>LOG OUT</button>
+        }}>Log out</button>
       </div>
     )
   }

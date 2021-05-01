@@ -22,36 +22,39 @@ const Field = (
     }, [name, quantity])
 
     return(
-        <div>
-            <form className="add_item_form">
-                <div className="field">
-                    <label>Name</label>
-                    <input
-                        className="input" 
-                        type="text"
-                        name="name"
-                        placeholder="Enter a name"
-                        value={name} //NEEDS TO BE CHECKED
-                        onChange={(e) => handleChange(e, "name")}
-                    />
+            <div className="item">
+                <div className="form">
+                    <form>
+                        <div className="input name"> 
+                            <label>Name</label>
+                            <input
+                                className="input" 
+                                type="text"
+                                name="name"
+                                placeholder="Enter a name"
+                                value={name} //NEEDS TO BE CHECKED
+                                onChange={(e) => handleChange(e, "name")}
+                            />
+                        </div>
+                        <div className="input">
+                            <label>Quantity</label>
+                            <input
+                                className="input"
+                                type="number"
+                                name="quantity"
+                                placeholder="Enter quantity"
+                                value={quantity}
+                                onChange={(e) => handleChange(e, "quantity")}
+                            />
+                            <button className="delete_button button" onClick={(event) => {
+                                event.preventDefault();
+                                deleteItem(id);
+                            }}>X</button>
+                        </div>
+                    </form>
+                    
                 </div>
-                <div className="field">
-                    <label>Quantity</label>
-                    <input
-                        className="input"
-                        type="number"
-                        name="quantity"
-                        placeholder="Enter quantity"
-                        value={quantity}
-                        onChange={(e) => handleChange(e, "quantity")}
-                    />
-                </div>
-                <button onClick={(event) => {
-                        event.preventDefault();
-                        deleteItem(id);
-                }}>Delete item</button>
-            </form>
-        </div>
+            </div>
     )
 }
 
