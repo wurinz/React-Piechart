@@ -21,8 +21,8 @@ function App() {
     return (
       <div className="pie_chart">
         <svg width="100%" height="100%" viewBox="0 0 42 42" class="pie">
-          <circle className="pie-hole" cx='21' cy='21' r='15.91549430918952' fill='#fff'></circle>
-          <circle className="pie-ring" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke='#d2d3d4' strokeWidth='5'></circle>
+          <circle className="pie-hole" cx='21' cy='21' r='15.91549430918952' fill='#F4F1DE'></circle>
+          <circle className="pie-ring" cx='21' cy='21' r='15.91549430918952' fill='transparent' stroke='#E07A5F' strokeWidth='5'></circle>
           {items.map((item, index) => {
             sumPreviousItems += parseInt(item.quantity);  
             const dasharray = `${(+item.quantity / allQuantity) * 100} ${100 - (+item.quantity / allQuantity) * 100}`;
@@ -51,22 +51,14 @@ function App() {
 
   const deleteItem = (id) => {
       let newItems = items.filter((item) => {
-       debugger; 
        return item.id !== id
     })
       setItems(newItems);
   }
-
-  const renderFields = () => {
-    console.log(items);
-    return items.map((item) => {
-      return <Field updateItems={updateItems} id={item.id} deleteItem={deleteItem}/>
-    })
-  };
   
   const addField = () => {
       setItems([...items, {
-        id: items.length, 
+        id: !items.length ? 0 : items[items.length - 1].id + 1, 
         name: '', 
         quantity: 0, 
         color: '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6), 
@@ -79,7 +71,11 @@ function App() {
     console.log('kkd')
         return (
           <div>
-           <div className="field_components">{renderFields()}</div>
+           <div className="field_components">{
+              items.map((item) => {
+                return <Field updateItems={updateItems} id={item.id} deleteItem={deleteItem} key={items.id} />
+              })
+           }</div>
                <div className="add_field_container">
                  <button onClick={()=>{
                    addField();
@@ -93,8 +89,9 @@ function App() {
       return (
         <div>
           <div className="authorization">
+            <h2>To use PieChart enter a name and password</h2>
             <form>
-              <h2>To use PieChart enter a name and password</h2>
+              <div className="authorization_input">
               <label>Name</label>
               <input 
                 type="text"
@@ -107,6 +104,8 @@ function App() {
                 }}
               >
               </input>
+              </div>
+              <div className="authorization_input">
               <label>Password</label>
               <input
                 type="text"
@@ -118,12 +117,13 @@ function App() {
                   setPassword(event.target.value);
                 }}
               />
+            </div>
             </form>
             <button onClick={() => {
               if(user === authenticationInfo.user && password === authenticationInfo.password){
                 setShowList(true)
               };
-            }}>SUBMIT</button>
+            }}>Submit</button>
           </div>
         </div>
       )
